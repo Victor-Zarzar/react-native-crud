@@ -115,22 +115,39 @@ Before starting, ensure you have:
 
 ```
 react-native-crud/
-├── app/                     # Expo Router routes
-│   ├── (tabs)/              # Tab navigation
-│   ├── _layout.tsx          # Root layout
-│   └── index.tsx            # Home screen
-├── shared/
-│   ├── components/          # Reusable UI components
-│   │   └── ui/              # React Native Reusables
-│   ├── constants/           # Constants and configs
-│   ├── lib/                 # Utilities and database helpers
-│   └── global.css           # NativeWind global styles
-├── assets/                  # Images and fonts
-├── app.json                 # Expo configuration
-├── package.json             # Dependencies
-├── tailwind.config.js       # NativeWind config
-├── tsconfig.json            # TypeScript config
-└── babel.config.js          # Babel config
+├── src/
+│   ├── app/                          # Expo Router routes
+│   │   ├── _layout.tsx               # Root layout
+│   │   ├── index.tsx                 # Initial redirect
+│   │   ├── (auth)/                   # Public auth routes
+│   │   │   ├── _layout.tsx
+│   │   │   ├── login.tsx
+│   │   │   ├── forgot-password.tsx
+│   │   │   └── reset-password.tsx
+│   │   └── (app)/                    # Protected app routes
+│   │       ├── _layout.tsx
+│   │       ├── index.tsx             # Home (logged in)
+│   │       ├── items/
+│   │       │   ├── index.tsx         # List items
+│   │       │   ├── new.tsx           # Create item
+│   │       │   └── [id].tsx          # Edit / detail
+│   │       └── settings.tsx          # Settings & logout
+│   └── shared/
+│       ├── db/                       # Database layer
+│       │   ├── client.ts             # SQLite client setup
+│       │   ├── migrations.ts         # Schema migrations
+│       │   ├── auth.ts               # Auth queries
+│       │   └── items.ts              # Items queries (CRUD)
+│       ├── providers/
+│       │   └── auth-provider.tsx     # Auth context & session
+│       └── types/
+│           └── auth.ts               # Auth type definitions
+├── assets/                           # Images and fonts
+├── app.json                          # Expo configuration
+├── package.json                      # Dependencies
+├── tailwind.config.js                # NativeWind config
+├── tsconfig.json                     # TypeScript config
+└── babel.config.js                   # Babel config
 ```
 
 ---

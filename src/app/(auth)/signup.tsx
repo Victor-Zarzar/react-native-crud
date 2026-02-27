@@ -1,13 +1,13 @@
-import { Text } from "@/shared/components/ui/text";
 import { View } from "react-native";
 import { useTranslation } from "react-i18next";
+import { SignUpForm } from "@/shared/components/sign-up-form";
 
 export default function SignUp() {
-  const { t } = useTranslation();
+	const { t } = useTranslation();
 
-  return (
-    <View>
-      <Text className="">{t('')}</Text>
-    </View>
-  );
+	return (
+		<View>
+			<SignUpForm />
+		</View>
+	);
 }

@@ -13,17 +13,9 @@ export default function RootLayout() {
 	return (
 		<ThemeProvider value={theme}>
 			<StatusBar style={theme.dark ? "light" : "dark"} />
-			<Stack
-				screenOptions={{
-					headerShown: true,
-					title: "React Native Boilerplate",
-					contentStyle: { backgroundColor: theme.colors.background },
-				}}
-			>
-				<Stack.Screen
-					name="(tabs)"
-					options={{ title: "React Native Boilerplate" }}
-				/>
+			<Stack screenOptions={{ headerShown: false }}>
+				<Stack.Screen name="(auth)" />
+				<Stack.Screen name="(app)" />
 			</Stack>
 		</ThemeProvider>
 	);
