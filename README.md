@@ -1,5 +1,5 @@
 <h1 align="center" id="header">
-  React Native Boilerplate
+  React Native CRUD
 </h1>
 
 <p align="center">
@@ -8,12 +8,12 @@
   <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
   <img src="https://img.shields.io/badge/Expo_Router-000000?style=for-the-badge&logo=expo&logoColor=white" alt="Expo Router">
   <img src="https://img.shields.io/badge/NativeWind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="NativeWind">
+  <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
   <img src="https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white" alt="Bun">
-  <img src="https://img.shields.io/badge/CI/CD-GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions">
 </p>
 
 <p align="center">
-  Production-ready React Native boilerplate powered by Expo Router, NativeWind, and React Native Reusables.
+  A full-featured CRUD application built with React Native, Expo Router, NativeWind, and SQLite. Create, read, update, and delete records with a clean, production-ready mobile interface.
 </p>
 
 ---
@@ -26,39 +26,54 @@
 <img src="https://github.com/tandpfun/skill-icons/blob/main/icons/React-Dark.svg" width="48" title="React Native">
 <img src="https://github.com/tandpfun/skill-icons/blob/main/icons/TypeScript.svg" width="48" title="TypeScript">
 <img src="https://github.com/tandpfun/skill-icons/blob/main/icons/TailwindCSS-Dark.svg" width="48" title="NativeWind">
+<img src="https://github.com/tandpfun/skill-icons/blob/main/icons/SQLite.svg" width="48" title="SQLite">
 </p>
-
-<h2 id="quick-start">
-  Quick Start
-</h2>
-
-### Using Bun (Recommended)
-
-```bash
-bunx degit Victor-Zarzar/react-native-boilerplate my-app
-cd my-app
-bun install
-bun run dev
-```
-
-### Using npm
-
-```bash
-npx degit Victor-Zarzar/react-native-boilerplate my-app
-cd my-app
-npm install
-npm run dev
-```
 
 ---
 
-### Core Technologies
+<h2 id="installation">
+  Installation & Setup
+</h2>
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/Victor-Zarzar/react-native-crud
+cd react-native-crud
+```
+
+### 2. Install Dependencies
+
+```bash
+bun i
+```
+
+### 3. Run the App (Start the development server):
+
+```bash
+bun run dev
+```
+
+Open the app:
+
+- Press `i` → iOS Simulator
+- Press `a` → Android Emulator
+- Press `w` → Web
+
+## Or scan the QR Code using Expo Go on your device.
+
+---
+
+<h2 id="core-technologies">
+  Core Technologies
+</h2>
 
 - **React Native** – Cross-platform mobile framework
 - **Expo SDK** – Development platform and tooling
 - **Expo Router** – File-based routing
 - **TypeScript** – Type-safe development
 - **NativeWind** – Tailwind CSS for React Native
+- **SQLite (Expo SQLite)** – Local persistent storage for CRUD operations
 - **React Native Reusables** – Accessible UI component system
 
 ---
@@ -67,6 +82,8 @@ npm run dev
   Key Features
 </h2>
 
+- Full CRUD operations — Create, Read, Update, and Delete records
+- Local data persistence with SQLite via Expo SQLite
 - Production-ready scalable structure
 - File-based routing with Expo Router
 - Dark mode support
@@ -97,7 +114,7 @@ Before starting, ensure you have:
 </h2>
 
 ```
-react-native-boilerplate/
+react-native-crud/
 ├── app/                     # Expo Router routes
 │   ├── (tabs)/              # Tab navigation
 │   ├── _layout.tsx          # Root layout
@@ -106,7 +123,7 @@ react-native-boilerplate/
 │   ├── components/          # Reusable UI components
 │   │   └── ui/              # React Native Reusables
 │   ├── constants/           # Constants and configs
-│   ├── lib/                 # Utilities
+│   ├── lib/                 # Utilities and database helpers
 │   └── global.css           # NativeWind global styles
 ├── assets/                  # Images and fonts
 ├── app.json                 # Expo configuration
@@ -115,32 +132,6 @@ react-native-boilerplate/
 ├── tsconfig.json            # TypeScript config
 └── babel.config.js          # Babel config
 ```
-
----
-
-<h2 id="usage">
-  Usage
-</h2>
-
-Start the development server:
-
-```bash
-bun run dev
-```
-
-or
-
-```bash
-npm run dev
-```
-
-Open the app:
-
-- Press `i` → iOS Simulator
-- Press `a` → Android Emulator
-- Press `w` → Web
-
-Or scan the QR Code using Expo Go on your device.
 
 ---
 
@@ -172,8 +163,7 @@ eas login
 eas build
 ```
 
-Documentation:  
-https://docs.expo.dev/eas/
+Documentation: https://docs.expo.dev/eas/
 
 ---
 
@@ -203,6 +193,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Victor Zarzar - [@Victor-Zarzar](https://github.com/Victor-Zarzar)
 
-Project Link: [https://github.com/Victor-Zarzar/react-native-boilerplate](https://github.com/Victor-Zarzar/react-native-boilerplate)
+Project Link: [https://github.com/Victor-Zarzar/react-native-crud](https://github.com/Victor-Zarzar/react-native-crud)
 
 ---
