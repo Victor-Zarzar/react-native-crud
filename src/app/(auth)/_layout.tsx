@@ -1,13 +1,10 @@
-import { Text } from "@/shared/components/ui/text";
-import { View } from "react-native";
-import { useTranslation } from "react-i18next";
+import { Redirect, Stack } from "expo-router";
+import { useAuth } from "@/shared/providers/auth-provider";
 
 export default function AuthLayout() {
-	const { t } = useTranslation();
+	const { isBootstrapping, user } = useAuth();
+	if (isBootstrapping) return null;
+	if (user) return <Redirect href="/(app)" />;
 
-	return (
-		<View>
-			<Text className=""></Text>
-		</View>
-	);
+	return <Stack screenOptions={{ headerShown: true }} />;
 }
