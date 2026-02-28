@@ -1,5 +1,5 @@
-import React from "react";
 import { SQLiteProvider } from "expo-sqlite";
+import type React from "react";
 import { MigrationGate } from "./db-migration";
 
 export function DbProvider({ children }: { children: React.ReactNode }) {

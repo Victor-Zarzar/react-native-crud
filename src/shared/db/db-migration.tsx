@@ -1,8 +1,8 @@
-import React from "react";
-import { useSQLiteContext } from "expo-sqlite";
 import { drizzle } from "drizzle-orm/expo-sqlite";
 import { useMigrations } from "drizzle-orm/expo-sqlite/migrator";
-import { ActivityIndicator, View, Text } from "react-native";
+import { useSQLiteContext } from "expo-sqlite";
+import type React from "react";
+import { ActivityIndicator, Text, View } from "react-native";
 import migrations from "../../../drizzle/migrations";
 import * as schema from "./schema";
 
