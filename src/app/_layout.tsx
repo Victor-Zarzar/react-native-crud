@@ -1,10 +1,12 @@
 import { ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { Suspense } from "react";
+import { ActivityIndicator, View } from "react-native";
 import { useColorScheme } from "nativewind";
 import { NAV_THEME } from "@/shared/lib/theme";
-import { DbGate } from "@/shared/providers/db-gate";
-import { AuthProvider } from "@/shared/providers/auth-provider";
+import { AuthProvider } from "@/shared/auth/provider";
+import { DbProvider } from "@/shared/db/provider";
 import "@/shared/global.css";
 import "../../i18n";
 
@@ -15,14 +17,22 @@ export default function RootLayout() {
 	return (
 		<ThemeProvider value={theme}>
 			<StatusBar style={theme.dark ? "light" : "dark"} />
-			<DbGate>
-				<AuthProvider>
-					<Stack screenOptions={{ headerShown: false }}>
-						<Stack.Screen name="(auth)" />
-						<Stack.Screen name="(app)" />
-					</Stack>
-				</AuthProvider>
-			</DbGate>
+			<Suspense
+				fallback={
+					<View className="flex-1 justify-center items-center">
+						<ActivityIndicator size="large" />
+					</View>
+				}
+			>
+				<DbProvider>
+					<AuthProvider>
+						<Stack screenOptions={{ headerShown: false }}>
+							<Stack.Screen name="(auth)" />
+							<Stack.Screen name="(app)" />
+						</Stack>
+					</AuthProvider>
+				</DbProvider>
+			</Suspense>
 		</ThemeProvider>
 	);
 }

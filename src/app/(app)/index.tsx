@@ -1,5 +1,5 @@
+import { useAuth } from "@/shared/hooks/useAuth";
 import { Redirect } from "expo-router";
-import { useAuth } from "@/shared/providers/auth-provider";
 
 export default function Index() {
 	const { user, isBootstrapping } = useAuth();

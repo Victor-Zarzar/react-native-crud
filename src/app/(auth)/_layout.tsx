@@ -1,5 +1,5 @@
+import { useAuth } from "@/shared/hooks/useAuth";
 import { Redirect, Stack } from "expo-router";
-import { useAuth } from "@/shared/providers/auth-provider";
 
 export default function AuthLayout() {
 	const { isBootstrapping, user } = useAuth();
