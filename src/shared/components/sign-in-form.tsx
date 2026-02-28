@@ -1,3 +1,8 @@
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router/build/hooks";
+import * as React from "react";
+import { Controller, useForm } from "react-hook-form";
+import { Pressable, type TextInput, View } from "react-native";
 import { SocialConnections } from "@/shared/components/social-connections";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -11,18 +16,33 @@ import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Separator } from "@/shared/components/ui/separator";
 import { Text } from "@/shared/components/ui/text";
-import * as React from "react";
-import { Pressable, type TextInput, View } from "react-native";
+import { useAuth } from "../hooks/useAuth";
+import { type SignInSchema, signInSchema } from "../types/auth";
 
 export function SignInForm() {
+	const router = useRouter();
+	const { signIn } = useAuth();
 	const passwordInputRef = React.useRef<TextInput>(null);
 
-	function onEmailSubmitEditing() {
-		passwordInputRef.current?.focus();
-	}
+	const {
+		control,
+		handleSubmit,
+		setError,
+		formState: { errors, isSubmitting },
+	} = useForm<SignInSchema>({
+		resolver: zodResolver(signInSchema),
+		defaultValues: { email: "", password: "" },
+	});
 
-	function onSubmit() {
-		// TODO: Submit form and navigate to protected screen if successful
+	async function onSubmit({ email, password }: SignInSchema) {
+		try {
+			await signIn(email, password);
+			router.replace("/(app)");
+		} catch (err) {
+			setError("root", {
+				message: err instanceof Error ? err.message : "Something went wrong",
+			});
+		}
 	}
 
 	return (
@@ -40,17 +60,31 @@ export function SignInForm() {
 					<View className="gap-6">
 						<View className="gap-1.5">
 							<Label htmlFor="email">Email</Label>
-							<Input
-								id="email"
-								placeholder="m@example.com"
-								keyboardType="email-address"
-								autoComplete="email"
-								autoCapitalize="none"
-								onSubmitEditing={onEmailSubmitEditing}
-								returnKeyType="next"
-								submitBehavior="submit"
+							<Controller
+								control={control}
+								name="email"
+								render={({ field: { onChange, value } }) => (
+									<Input
+										id="email"
+										placeholder="m@example.com"
+										keyboardType="email-address"
+										autoComplete="email"
+										autoCapitalize="none"
+										returnKeyType="next"
+										submitBehavior="submit"
+										onSubmitEditing={() => passwordInputRef.current?.focus()}
+										onChangeText={onChange}
+										value={value}
+									/>
+								)}
 							/>
+							{errors.email && (
+								<Text className="text-destructive text-sm">
+									{errors.email.message}
+								</Text>
+							)}
 						</View>
+
 						<View className="gap-1.5">
 							<View className="flex-row items-center">
 								<Label htmlFor="password">Password</Label>
@@ -58,39 +92,59 @@ export function SignInForm() {
 									variant="link"
 									size="sm"
 									className="web:h-fit ml-auto h-4 px-1 py-0 sm:h-4"
-									onPress={() => {
-										// TODO: Navigate to forgot password screen
-									}}
+									onPress={() => router.push("/(auth)/forgot-password")}
 								>
 									<Text className="font-normal leading-4">
 										Forgot your password?
 									</Text>
 								</Button>
 							</View>
-							<Input
-								ref={passwordInputRef}
-								id="password"
-								secureTextEntry
-								returnKeyType="send"
-								onSubmitEditing={onSubmit}
+							<Controller
+								control={control}
+								name="password"
+								render={({ field: { onChange, value } }) => (
+									<Input
+										ref={passwordInputRef}
+										id="password"
+										secureTextEntry
+										returnKeyType="send"
+										onSubmitEditing={handleSubmit(onSubmit)}
+										onChangeText={onChange}
+										value={value}
+									/>
+								)}
 							/>
+							{errors.password && (
+								<Text className="text-destructive text-sm">
+									{errors.password.message}
+								</Text>
+							)}
 						</View>
-						<Button className="w-full" onPress={onSubmit}>
-							<Text>Continue</Text>
+
+						{errors.root && (
+							<Text className="text-destructive text-center text-sm">
+								{errors.root.message}
+							</Text>
+						)}
+
+						<Button
+							className="w-full"
+							onPress={handleSubmit(onSubmit)}
+							disabled={isSubmitting}
+						>
+							<Text>{isSubmitting ? "Signing in..." : "Continue"}</Text>
 						</Button>
 					</View>
+
 					<Text className="text-center text-sm">
-						Don&apos;t have an account?{" "}
-						<Pressable
-							onPress={() => {
-								// TODO: Navigate to sign up screen
-							}}
-						>
+						Don't have an account?{" "}
+						<Pressable onPress={() => router.push("/(auth)/signup")}>
 							<Text className="text-sm underline underline-offset-4">
 								Sign up
 							</Text>
 						</Pressable>
 					</Text>
+
 					<View className="flex-row items-center">
 						<Separator className="flex-1" />
 						<Text className="text-muted-foreground px-4 text-sm">or</Text>

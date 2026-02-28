@@ -1,9 +1,9 @@
-import { useAuth } from "@/shared/hooks/useAuth";
 import { Redirect, Stack } from "expo-router";
+import { useAuth } from "@/shared/hooks/useAuth";
 
 export default function AuthLayout() {
-	const { isBootstrapping, user } = useAuth();
-	if (isBootstrapping) return null;
+	const { isAuthReady, user } = useAuth();
+	if (isAuthReady) return null;
 	if (user) return <Redirect href="/(app)" />;
 
 	return <Stack screenOptions={{ headerShown: true }} />;

@@ -1,12 +1,12 @@
 import { ThemeProvider } from "@react-navigation/native";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
+import { useColorScheme } from "nativewind";
 import { Suspense } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { useColorScheme } from "nativewind";
-import { NAV_THEME } from "@/shared/lib/theme";
 import { AuthProvider } from "@/shared/auth/provider";
 import { DbProvider } from "@/shared/db/provider";
+import { NAV_THEME } from "@/shared/lib/theme";
 import "@/shared/global.css";
 import "../../i18n";
 

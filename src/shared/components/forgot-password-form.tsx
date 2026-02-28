@@ -1,3 +1,4 @@
+import { View } from "react-native";
 import { Button } from "@/shared/components/ui/button";
 import {
 	Card,
@@ -9,7 +10,6 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Text } from "@/shared/components/ui/text";
-import { View } from "react-native";
 
 export function ForgotPasswordForm() {
 	function onSubmit() {

@@ -1,5 +1,5 @@
-import { cn } from "@/shared/lib/utils";
 import { View } from "react-native";
+import { cn } from "@/shared/lib/utils";
 
 function Skeleton({
 	className,

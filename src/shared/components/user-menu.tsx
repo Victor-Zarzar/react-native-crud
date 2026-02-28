@@ -1,3 +1,7 @@
+import type { TriggerRef } from "@rn-primitives/popover";
+import { LogOutIcon, PlusIcon, SettingsIcon } from "lucide-react-native";
+import * as React from "react";
+import { View } from "react-native";
 import {
 	Avatar,
 	AvatarFallback,
@@ -12,10 +16,6 @@ import {
 } from "@/shared/components/ui/popover";
 import { Text } from "@/shared/components/ui/text";
 import { cn } from "@/shared/lib/utils";
-import type { TriggerRef } from "@rn-primitives/popover";
-import { LogOutIcon, PlusIcon, SettingsIcon } from "lucide-react-native";
-import * as React from "react";
-import { View } from "react-native";
 
 const USER = {
 	fullName: "Zach Nugent",

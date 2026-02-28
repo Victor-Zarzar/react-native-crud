@@ -1,3 +1,3 @@
-export { AuthProvider } from "./provider";
 export { useAuth } from "@/shared/hooks/useAuth";
-export type { AuthUser, AuthContextType } from "@/shared/types/auth";
+export type { AuthContextType, AuthUser } from "@/shared/types/auth";
+export { AuthProvider } from "./provider";
