@@ -1,7 +1,6 @@
 <h1 align="center" id="header">
   React Native CRUD
 </h1>
-
 <p align="center">
   <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Native">
   <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" alt="Expo">
@@ -9,11 +8,11 @@
   <img src="https://img.shields.io/badge/Expo_Router-000000?style=for-the-badge&logo=expo&logoColor=white" alt="Expo Router">
   <img src="https://img.shields.io/badge/NativeWind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="NativeWind">
   <img src="https://img.shields.io/badge/SQLite-003B57?style=for-the-badge&logo=sqlite&logoColor=white" alt="SQLite">
+  <img src="https://img.shields.io/badge/Drizzle-C5F74F?style=for-the-badge&logo=drizzle&logoColor=black" alt="Drizzle ORM">
   <img src="https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white" alt="Bun">
 </p>
-
 <p align="center">
-  A full-featured CRUD application built with React Native, Expo Router, NativeWind, and SQLite. Create, read, update, and delete records with a clean, production-ready mobile interface.
+  A full-featured CRUD application built with React Native, Expo Router, NativeWind, Drizzle ORM, and SQLite. Create, read, update, and delete records with a clean, production-ready mobile interface.
 </p>
 
 ---
@@ -21,7 +20,6 @@
 <h2 id="stack">
   Tech Stack
 </h2>
-
 <p>
 <img src="https://github.com/tandpfun/skill-icons/blob/main/icons/React-Dark.svg" width="48" title="React Native">
 <img src="https://github.com/tandpfun/skill-icons/blob/main/icons/TypeScript.svg" width="48" title="TypeScript">
@@ -48,7 +46,13 @@ cd react-native-crud
 bun i
 ```
 
-### 3. Run the App (Start the development server):
+### 3. Generate Database Migrations
+
+```bash
+bun run db:generate
+```
+
+### 4. Run the App (Start the development server):
 
 ```bash
 bun run dev
@@ -64,6 +68,28 @@ Open the app:
 
 ---
 
+<h2 id="scripts">
+  Available Scripts
+</h2>
+
+| Script                   | Description                                     |
+| ------------------------ | ----------------------------------------------- |
+| `bun run dev`            | Start the development server (with cache clear) |
+| `bun run android`        | Start on Android Emulator                       |
+| `bun run ios`            | Start on iOS Simulator                          |
+| `bun run web`            | Start on Web                                    |
+| `bun run db:generate`    | Generate Drizzle ORM migration files            |
+| `bun run prebuild`       | Rebuild native directories with Expo Prebuild   |
+| `bun run ios:native`     | Run native iOS build                            |
+| `bun run android:native` | Run native Android build                        |
+| `bun run lint`           | Check code with Biome                           |
+| `bun run lint:fix`       | Auto-fix lint issues with Biome                 |
+| `bun run format`         | Format code with Biome                          |
+| `bun run typecheck`      | Run TypeScript type checking                    |
+| `bun test`               | Run tests with Bun                              |
+
+---
+
 <h2 id="core-technologies">
   Core Technologies
 </h2>
@@ -74,6 +100,8 @@ Open the app:
 - **TypeScript** – Type-safe development
 - **NativeWind** – Tailwind CSS for React Native
 - **SQLite (Expo SQLite)** – Local persistent storage for CRUD operations
+- **Drizzle ORM** – Type-safe ORM for SQLite with migration support
+- **Expo Crypto** – Cryptographic utilities for secure ID generation and hashing
 - **React Native Reusables** – Accessible UI component system
 
 ---
@@ -84,6 +112,9 @@ Open the app:
 
 - Full CRUD operations — Create, Read, Update, and Delete records
 - Local data persistence with SQLite via Expo SQLite
+- Type-safe database queries with Drizzle ORM
+- Drizzle Studio integration via `expo-drizzle-studio-plugin` for database inspection during development
+- Secure ID generation with Expo Crypto
 - Production-ready scalable structure
 - File-based routing with Expo Router
 - Dark mode support
@@ -117,38 +148,82 @@ Before starting, ensure you have:
 react-native-crud/
 ├── src/
 │   ├── app/                          # Expo Router routes
-│   │   ├── _layout.tsx               # Root layout
-│   │   ├── index.tsx                 # Initial redirect
 │   │   ├── (auth)/                   # Public auth routes
-│   │   │   ├── _layout.tsx
-│   │   │   ├── login.tsx
-│   │   │   ├── forgot-password.tsx
-│   │   │   └── reset-password.tsx
-│   │   └── (app)/                    # Protected app routes
-│   │       ├── _layout.tsx
-│   │       ├── index.tsx             # Home (logged in)
-│   │       ├── items/
-│   │       │   ├── index.tsx         # List items
-│   │       │   ├── new.tsx           # Create item
-│   │       │   └── [id].tsx          # Edit / detail
-│   │       └── settings.tsx          # Settings & logout
+│   │   │   ├── +html.tsx
+│   │   │   ├── +not-found.tsx
+│   │   │   └── _layout.tsx
 │   └── shared/
+│       ├── auth/                     # Auth context & logic
+│       │   ├── context.ts
+│       │   ├── index.ts
+│       │   └── provider.tsx
+│       ├── components/
+│       │   ├── language/             # i18n / language components
+│       │   │   ├── flags/
+│       │   │   └── index.tsx
+│       │   └── ui/                   # Reusable UI components
+│       │       ├── forgot-password-form.tsx
+│       │       ├── reset-password-form.tsx
+│       │       ├── sign-in-form.tsx
+│       │       ├── sign-up-form.tsx
+│       │       ├── social-connections.tsx
+│       │       ├── user-menu.tsx
+│       │       └── verify-email-form.tsx
+│       ├── constants/
+│       │   ├── Colors.ts
+│       │   └── theme-icon.tsx
 │       ├── db/                       # Database layer
 │       │   ├── client.ts             # SQLite client setup
-│       │   ├── migrations.ts         # Schema migrations
-│       │   ├── auth.ts               # Auth queries
-│       │   └── items.ts              # Items queries (CRUD)
-│       ├── providers/
-│       │   └── auth-provider.tsx     # Auth context & session
+│       │   ├── db-migration.tsx      # Migration runner
+│       │   ├── index.ts
+│       │   ├── provider.tsx          # DB context provider
+│       │   └── schema.ts             # Drizzle schema definitions
+│       ├── hooks/
+│       │   ├── useAuth.ts
+│       │   └── useColorScheme.ts
+│       ├── lib/
+│       │   ├── theme.ts
+│       │   └── utils.ts
+│       ├── services/
+│       │   └── userService.ts
 │       └── types/
-│           └── auth.ts               # Auth type definitions
+│           ├── auth.ts
+│           ├── icon.ts
+│           └── locale.ts
+├── tests/                            # Test files
 ├── assets/                           # Images and fonts
+├── global.css                        # Global styles
 ├── app.json                          # Expo configuration
+├── drizzle.config.ts                 # Drizzle Kit configuration
 ├── package.json                      # Dependencies
 ├── tailwind.config.js                # NativeWind config
 ├── tsconfig.json                     # TypeScript config
 └── babel.config.js                   # Babel config
 ```
+
+---
+
+<h2 id="database">
+  Database & Migrations
+</h2>
+
+This project uses **Drizzle ORM** on top of **Expo SQLite** for type-safe, local database operations.
+
+### Generating Migrations
+
+After modifying the schema, run:
+
+```bash
+bun run db:generate
+```
+
+This will generate SQL migration files inside the `drizzle/` folder using Drizzle Kit.
+
+### Inspecting the Database with Drizzle Studio
+
+With the development server running (`bun run dev`), press `Shift + M` in the terminal to open the Dev Tools menu, then select **`expo-drizzle-studio-plugin`** from the list. Drizzle Studio will open in a new browser tab, allowing you to browse and manage your local SQLite database visually.
+
+> **Note:** This plugin is available during native development only (iOS/Android). It does not work on Web.
 
 ---
 

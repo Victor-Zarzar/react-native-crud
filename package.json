@@ -43,6 +43,7 @@
 		"expo": "~54.0.29",
 		"expo-constants": "~18.0.12",
 		"expo-crypto": "15.0.8",
+		"expo-drizzle-studio-plugin": "^0.2.1",
 		"expo-linking": "~8.0.10",
 		"expo-localization": "~17.0.8",
 		"expo-router": "~6.0.19",
