@@ -11,12 +11,12 @@ import { AuthContext } from "./context";
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
 	const [user, setUser] = useState<AuthUser | null>(null);
-	const [isAuthReady, setIsAuthReady] = useState(false);
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 	useEffect(() => {
 		getSessionUser()
 			.then(setUser)
-			.finally(() => setIsAuthReady(false));
+			.finally(() => setIsAuthenticated(false));
 	}, []);
 
 	async function signIn(email: string, password: string): Promise<void> {
@@ -37,7 +37,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 	return (
 		<AuthContext.Provider
-			value={{ user, isAuthReady, signIn, signUp, signOut }}
+			value={{ user, isAuthenticated, signIn, signUp, signOut }}
 		>
 			{children}
 		</AuthContext.Provider>

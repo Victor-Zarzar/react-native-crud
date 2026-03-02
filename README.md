@@ -4,6 +4,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Native">
   <img src="https://img.shields.io/badge/Expo-000020?style=for-the-badge&logo=expo&logoColor=white" alt="Expo">
+  <img src="https://img.shields.io/badge/Expo_SDK-55-000020?style=for-the-badge&logo=expo&logoColor=white" alt="Expo SDK 55">
   <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript">
   <img src="https://img.shields.io/badge/Expo_Router-000000?style=for-the-badge&logo=expo&logoColor=white" alt="Expo Router">
   <img src="https://img.shields.io/badge/NativeWind-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="NativeWind">
@@ -95,7 +96,7 @@ Open the app:
 </h2>
 
 - **React Native** – Cross-platform mobile framework
-- **Expo SDK** – Development platform and tooling
+- **Expo SDK 55** – Development platform and tooling
 - **Expo Router** – File-based routing
 - **TypeScript** – Type-safe development
 - **NativeWind** – Tailwind CSS for React Native

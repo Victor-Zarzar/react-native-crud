@@ -3,6 +3,7 @@ import { useRouter } from "expo-router";
 import * as React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, type TextInput, View } from "react-native";
+import { type SignUpSchema, signUpSchema } from "@/shared/auth/schemas";
 import { SocialConnections } from "@/shared/components/social-connections";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -16,7 +17,6 @@ import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Separator } from "@/shared/components/ui/separator";
 import { Text } from "@/shared/components/ui/text";
-import { type SignUpSchema, signUpSchema } from "@/shared/types/auth";
 import { useAuth } from "../hooks/useAuth";
 
 export function SignUpForm() {
