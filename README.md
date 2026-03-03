@@ -147,12 +147,34 @@ Before starting, ensure you have:
 
 ```
 react-native-crud/
+├── .expo/                            # Expo cache and config
+├── .github/                          # GitHub Actions & workflows
+├── assets/                           # Images and fonts
+├── drizzle/                          # Generated SQL migration files
+├── i18n/                             # Internationalization config
+├── node_modules/                     # Dependencies
 ├── src/
 │   ├── app/                          # Expo Router routes
-│   │   ├── (auth)/                   # Public auth routes
-│   │   │   ├── +html.tsx
-│   │   │   ├── +not-found.tsx
-│   │   │   └── _layout.tsx
+│   │   ├── (auth)/                   # Public auth routes (unauthenticated)
+│   │   │   ├── _layout.tsx           # Auth stack layout
+│   │   │   ├── forgot-password.tsx   # Forgot password screen
+│   │   │   ├── reset-password.tsx    # Reset password screen
+│   │   │   ├── signin.tsx            # Sign in screen
+│   │   │   └── signup.tsx            # Sign up screen
+│   │   ├── (main)/                   # Protected main routes (authenticated)
+│   │   │   └── (tabs)/               # Bottom tab navigator
+│   │   │       ├── about/            # About tab
+│   │   │       │   ├── _layout.tsx
+│   │   │       │   └── index.tsx
+│   │   │       ├── home/             # Home tab
+│   │   │       │   ├── _layout.tsx
+│   │   │       │   └── index.tsx
+│   │   │       └── settings/         # Settings tab
+│   │   │           ├── _layout.tsx
+│   │   │           └── index.tsx
+│   │   ├── +html.tsx                 # Custom HTML shell (web)
+│   │   ├── +not-found.tsx            # 404 screen
+│   │   └── _layout.tsx               # Root layout
 │   └── shared/
 │       ├── auth/                     # Auth context & logic
 │       │   ├── context.ts
@@ -164,6 +186,7 @@ react-native-crud/
 │       │   │   └── index.tsx
 │       │   └── ui/                   # Reusable UI components
 │       │       ├── forgot-password-form.tsx
+│       │       ├── header-avatar.tsx
 │       │       ├── reset-password-form.tsx
 │       │       ├── sign-in-form.tsx
 │       │       ├── sign-up-form.tsx
@@ -192,7 +215,6 @@ react-native-crud/
 │           ├── icon.ts
 │           └── locale.ts
 ├── tests/                            # Test files
-├── assets/                           # Images and fonts
 ├── global.css                        # Global styles
 ├── app.json                          # Expo configuration
 ├── drizzle.config.ts                 # Drizzle Kit configuration
@@ -225,6 +247,14 @@ This will generate SQL migration files inside the `drizzle/` folder using Drizzl
 With the development server running (`bun run dev`), press `Shift + M` in the terminal to open the Dev Tools menu, then select **`expo-drizzle-studio-plugin`** from the list. Drizzle Studio will open in a new browser tab, allowing you to browse and manage your local SQLite database visually.
 
 > **Note:** This plugin is available during native development only (iOS/Android). It does not work on Web.
+
+</br>
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/05dce4c2-72cd-46c9-afb9-d04146848ea2" width="1000" height="600" alt="SQL Drizze Studio">
+</p>
+
+</br>
 
 ---
 

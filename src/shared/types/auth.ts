@@ -9,4 +9,5 @@ export type AuthContextType = {
 export type AuthUser = {
 	id: number;
 	email: string;
+	avatar_url: string;
 };

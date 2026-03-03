@@ -6,7 +6,7 @@ export default function TabLayout() {
 
 	return (
 		<NativeTabs>
-			<NativeTabs.Trigger name="index">
+			<NativeTabs.Trigger name="home">
 				<NativeTabs.Trigger.Label>{t("tabs.home")}</NativeTabs.Trigger.Label>
 				<NativeTabs.Trigger.Icon sf="house.fill" md="home" />
 			</NativeTabs.Trigger>
