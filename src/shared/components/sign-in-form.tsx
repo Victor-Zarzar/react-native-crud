@@ -37,7 +37,7 @@ export function SignInForm() {
 	async function onSubmit({ email, password }: SignInSchema) {
 		try {
 			await signIn(email, password);
-			router.replace("/(app)");
+			router.replace("/(main)/(tabs)/home");
 		} catch (err) {
 			setError("root", {
 				message: err instanceof Error ? err.message : "Something went wrong",

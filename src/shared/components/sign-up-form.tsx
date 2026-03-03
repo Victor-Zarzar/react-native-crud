@@ -37,7 +37,7 @@ export function SignUpForm() {
 	async function onSubmit({ email, password }: SignUpSchema) {
 		try {
 			await signUp(email, password);
-			router.replace("/(app)");
+			router.replace("/(auth)/signin");
 		} catch (err) {
 			setError("root", {
 				message: err instanceof Error ? err.message : "Something went wrong",
@@ -66,7 +66,7 @@ export function SignUpForm() {
 								render={({ field: { onChange, value } }) => (
 									<Input
 										id="email"
-										placeholder="m@example.com"
+										placeholder="email@gmail.com"
 										keyboardType="email-address"
 										autoComplete="email"
 										autoCapitalize="none"

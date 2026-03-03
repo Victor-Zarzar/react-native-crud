@@ -22,7 +22,7 @@ export async function getSessionUser(): Promise<AuthUser | null> {
 		.limit(1);
 
 	if (!user) return null;
-	return { id: user.id, email: user.email };
+	return { id: user.id, email: user.email, avatar_url: user.avatar_url };
 }
 
 export async function signUpUser(
@@ -44,7 +44,7 @@ export async function signUpUser(
 
 	const [user] = await db
 		.insert(users)
-		.values({ email, passwordHash, createdAt: now })
+		.values({ email, passwordHash, createdAt: now, avatar_url: "" })
 		.returning();
 
 	await db.insert(sessions).values({
@@ -52,7 +52,7 @@ export async function signUpUser(
 		createdAt: now,
 	});
 
-	return { id: user.id, email: user.email };
+	return { id: user.id, email: user.email, avatar_url: user.avatar_url };
 }
 
 export async function signInUser(
@@ -78,7 +78,7 @@ export async function signInUser(
 		createdAt: Date.now(),
 	});
 
-	return { id: user.id, email: user.email };
+	return { id: user.id, email: user.email, avatar_url: user.avatar_url };
 }
 
 export async function signOutUser(userId: number): Promise<void> {

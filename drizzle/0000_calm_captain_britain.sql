@@ -22,6 +22,7 @@ CREATE TABLE `users` (
 	`id` integer PRIMARY KEY NOT NULL,
 	`email` text NOT NULL,
 	`password_hash` text NOT NULL,
+	`avatar_url` text DEFAULT '' NOT NULL,
 	`created_at` integer NOT NULL
 );
 --> statement-breakpoint
