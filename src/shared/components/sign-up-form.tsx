@@ -1,10 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
+import { CheckCircle2, XCircle } from "lucide-react-native";
 import * as React from "react";
+import { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Pressable, type TextInput, View } from "react-native";
 import { type SignUpSchema, signUpSchema } from "@/shared/auth/schemas";
 import { SocialConnections } from "@/shared/components/social-connections";
+import {
+	Alert,
+	AlertDescription,
+	AlertTitle,
+} from "@/shared/components/ui/alert";
 import { Button } from "@/shared/components/ui/button";
 import {
 	Card,
@@ -22,12 +29,15 @@ import { useAuth } from "../hooks/useAuth";
 export function SignUpForm() {
 	const router = useRouter();
 	const { signUp } = useAuth();
+	const [alert, setAlert] = useState<{
+		type: "success" | "error";
+		message: string;
+	} | null>(null);
 	const passwordInputRef = React.useRef<TextInput>(null);
 
 	const {
 		control,
 		handleSubmit,
-		setError,
 		formState: { errors, isSubmitting },
 	} = useForm<SignUpSchema>({
 		resolver: zodResolver(signUpSchema),
@@ -37,16 +47,30 @@ export function SignUpForm() {
 	async function onSubmit({ email, password }: SignUpSchema) {
 		try {
 			await signUp(email, password);
-			router.replace("/(auth)/signin");
+			setAlert({ type: "success", message: "Account created successfully!" });
+			setTimeout(() => router.replace("/(auth)/signin"), 2000);
 		} catch (err) {
-			setError("root", {
+			setAlert({
+				type: "error",
 				message: err instanceof Error ? err.message : "Something went wrong",
 			});
 		}
 	}
 
 	return (
-		<View className="gap-6">
+		<View className="gap-6 mt-20">
+			{alert && (
+				<Alert
+					className="w-3/4 mx-auto"
+					icon={alert.type === "success" ? CheckCircle2 : XCircle}
+				>
+					<AlertTitle>
+						{alert.type === "success" ? "Success" : "Error"}
+					</AlertTitle>
+					<AlertDescription>{alert.message}</AlertDescription>
+				</Alert>
+			)}
+
 			<Card className="border-border/0 sm:border-border shadow-none sm:shadow-sm sm:shadow-black/5">
 				<CardHeader>
 					<CardTitle className="text-center text-xl sm:text-left">

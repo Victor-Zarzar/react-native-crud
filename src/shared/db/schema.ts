@@ -21,6 +21,13 @@ export const passwordResets = sqliteTable("password_resets", {
 	expiresAt: integer("expires_at").notNull(),
 });
 
+export const passwordResetTokens = sqliteTable("password_reset_tokens", {
+	id: integer("id").primaryKey({ autoIncrement: true }),
+	userId: text("user_id").notNull(),
+	token: text("token").notNull().unique(),
+	createdAt: integer("created_at").notNull(),
+});
+
 export const items = sqliteTable("items", {
 	id: integer("id").primaryKey().notNull(),
 	title: text("title").notNull(),
