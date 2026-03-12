@@ -1,3 +1,5 @@
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import { View } from "react-native";
 import { Button } from "@/shared/components/ui/button";
 import {
@@ -10,10 +12,22 @@ import {
 import { Input } from "@/shared/components/ui/input";
 import { Label } from "@/shared/components/ui/label";
 import { Text } from "@/shared/components/ui/text";
+import { createPasswordResetToken } from "@/shared/services/userService";
 
 export function ForgotPasswordForm() {
-	function onSubmit() {
-		// TODO: Submit form and navigate to reset password screen if successful
+	const [email, setEmail] = useState("");
+	const [loading, setLoading] = useState(false);
+	const router = useRouter();
+
+	async function onSubmit() {
+		if (!email) return;
+		setLoading(true);
+		try {
+			const token = await createPasswordResetToken(email);
+			router.push({ pathname: "/(auth)/reset-password", params: { token } });
+		} finally {
+			setLoading(false);
+		}
 	}
 
 	return (
@@ -39,9 +53,11 @@ export function ForgotPasswordForm() {
 								autoCapitalize="none"
 								returnKeyType="send"
 								onSubmitEditing={onSubmit}
+								value={email}
+								onChangeText={setEmail}
 							/>
 						</View>
-						<Button className="w-full" onPress={onSubmit}>
+						<Button className="w-full" onPress={onSubmit} disabled={loading}>
 							<Text>Reset your password</Text>
 						</Button>
 					</View>

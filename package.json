@@ -23,7 +23,8 @@
 		"lint:fix": "biome check . --write",
 		"format": "biome format . --write",
 		"typecheck": "tsc --noEmit",
-		"test": "bun test"
+		"test": "bun test",
+		"upgrade-deps": "bunx expo install --fix"
 	},
 	"dependencies": {
 		"@expo/metro-runtime": "~55.0.6",
@@ -41,13 +42,13 @@
 		"class-variance-authority": "^0.7.1",
 		"clsx": "^2.1.1",
 		"drizzle-orm": "^0.45.1",
-		"expo": "~55.0.4",
+		"expo": "~55.0.5",
 		"expo-constants": "~55.0.7",
-		"expo-crypto": "55.0.8",
+		"expo-crypto": "~55.0.9",
 		"expo-drizzle-studio-plugin": "^0.2.1",
 		"expo-linking": "~55.0.7",
 		"expo-localization": "~55.0.8",
-		"expo-router": "~55.0.3",
+		"expo-router": "~55.0.5",
 		"expo-splash-screen": "~55.0.10",
 		"expo-sqlite": "^55.0.10",
 		"expo-status-bar": "~55.0.4",

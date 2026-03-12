@@ -1,5 +1,5 @@
 <h1 align="center" id="header">
-  React Native CRUD
+  React Native Basic Auth
 </h1>
 <p align="center">
   <img src="https://img.shields.io/badge/React_Native-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React Native">
@@ -13,8 +13,10 @@
   <img src="https://img.shields.io/badge/Bun-000000?style=for-the-badge&logo=bun&logoColor=white" alt="Bun">
 </p>
 <p align="center">
-  A full-featured CRUD application built with React Native, Expo Router, NativeWind, Drizzle ORM, and SQLite. Create, read, update, and delete records with a clean, production-ready mobile interface.
+  A <strong>starter boilerplate</strong> for authentication in React Native, built with Expo Router, NativeWind, Drizzle ORM, and SQLite. Includes sign up, sign in, sign out, forgot password, and reset password flows — designed as a solid foundation to build on, not a production-ready solution out of the box.
 </p>
+
+> ⚠️ **This is a starting point.** Before shipping to production, review the [Security Considerations](#security-considerations) section below. Several intentional simplifications were made to keep this boilerplate approachable.
 
 ---
 
@@ -30,6 +32,66 @@
 
 ---
 
+<h2 id="security-considerations">
+  Security Considerations
+</h2>
+
+This project is intentionally simplified. Before using it as a base for a real-world app, you should address the following:
+
+### Password Hashing
+
+Currently, passwords are hashed using `Crypto.CryptoDigestAlgorithm.SHA256` via `expo-crypto`. **SHA-256 is not suitable for password hashing in production** — it is fast by design, which makes brute-force attacks trivial.
+
+> The `argon2` npm package is **not compatible with React Native** as it relies on Node.js native bindings (C++). Use one of the alternatives below instead.
+
+**Option 1 — `react-native-argon2`** (recommended, requires `expo prebuild` — exits Expo Go):
+
+```bash
+bun add react-native-argon2
+bun run prebuild
+```
+
+```ts
+import Argon2 from "react-native-argon2";
+
+async function hashPassword(password: string, salt: string): Promise<string> {
+  const { rawHash } = await Argon2.hash(password, salt, { mode: "argon2id" });
+  return rawHash;
+}
+```
+
+**Option 2 — `expo-crypto` with SHA-512 + salt** (no eject required, stays in Expo Go):
+
+```ts
+import * as Crypto from "expo-crypto";
+
+async function hashPassword(password: string, salt: string): Promise<string> {
+  return Crypto.digestStringAsync(
+    Crypto.CryptoDigestAlgorithm.SHA512,
+    salt + password,
+  );
+}
+```
+
+> SHA-512 is still not ideal for password hashing, but significantly better than SHA-256 when combined with a unique per-user salt stored alongside the hash.
+
+**Option 3 — Backend authentication** (most secure for production):
+Move auth entirely to a server (Node.js, Go, etc.) where Argon2id runs natively, and have the app communicate via HTTPS. Services like [Supabase](https://supabase.com) or [Firebase Auth](https://firebase.google.com/products/auth) handle this out of the box.
+
+> Argon2id is the current recommendation from [OWASP](https://cheatsheetseries.owasp.org/cheatsheets/Password_Storage_Cheat_Sheet.html) and [RFC 9106](https://www.rfc-editor.org/rfc/rfc9106).
+
+### Other Areas to Improve Before Production
+
+- **Password reset tokens** — currently passed via route params (visible in navigation). Consider storing them only server-side or using a deeper link strategy.
+- **Session management** — sessions are stored in SQLite with no expiry. Add a `expiresAt` column and invalidate stale sessions.
+- **Input validation** — add stricter password rules (min length, complexity) via Zod schemas.
+- **Rate limiting** — no protection against brute-force login attempts exists in a local-first setup; consider adding attempt counters.
+- **Token expiry** — reset tokens expire after 15 minutes by default; adjust as needed for your use case.
+- **No email verification** — there is no email confirmation step on sign up.
+- **Local-only** — this project uses SQLite with no backend. For multi-device or server-side auth, you will need to integrate a backend (e.g., Supabase, Firebase, or a custom API).
+
+---
+
 <h2 id="installation">
   Installation & Setup
 </h2>
@@ -37,8 +99,8 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Victor-Zarzar/react-native-crud
-cd react-native-crud
+git clone https://github.com/Victor-Zarzar/react-native-basic-auth
+cd react-native-basic-auth
 ```
 
 ### 2. Install Dependencies
@@ -80,6 +142,7 @@ Open the app:
 | `bun run ios`            | Start on iOS Simulator                          |
 | `bun run web`            | Start on Web                                    |
 | `bun run db:generate`    | Generate Drizzle ORM migration files            |
+| `bun run upgrade-deps`   | Fix and align dependencies with Expo SDK        |
 | `bun run prebuild`       | Rebuild native directories with Expo Prebuild   |
 | `bun run ios:native`     | Run native iOS build                            |
 | `bun run android:native` | Run native Android build                        |
@@ -100,9 +163,9 @@ Open the app:
 - **Expo Router** – File-based routing
 - **TypeScript** – Type-safe development
 - **NativeWind** – Tailwind CSS for React Native
-- **SQLite (Expo SQLite)** – Local persistent storage for CRUD operations
+- **SQLite (Expo SQLite)** – Local persistent storage
 - **Drizzle ORM** – Type-safe ORM for SQLite with migration support
-- **Expo Crypto** – Cryptographic utilities for secure ID generation and hashing
+- **Expo Crypto** – Cryptographic utilities (SHA-256 for dev; replace with Argon2id for prod)
 - **React Native Reusables** – Accessible UI component system
 
 ---
@@ -111,11 +174,11 @@ Open the app:
   Key Features
 </h2>
 
-- Full CRUD operations — Create, Read, Update, and Delete records
+- Complete auth flow — Sign Up, Sign In, Sign Out, Forgot Password, Reset Password
 - Local data persistence with SQLite via Expo SQLite
 - Type-safe database queries with Drizzle ORM
 - Drizzle Studio integration via `expo-drizzle-studio-plugin` for database inspection during development
-- Secure ID generation with Expo Crypto
+- Password hashing with Expo Crypto (SHA-256 — see [Security Considerations](#security-considerations) for production upgrade path)
 - Production-ready scalable structure
 - File-based routing with Expo Router
 - Dark mode support
@@ -146,7 +209,7 @@ Before starting, ensure you have:
 </h2>
 
 ```
-react-native-crud/
+react-native-basic-auth/
 ├── .expo/                            # Expo cache and config
 ├── .github/                          # GitHub Actions & workflows
 ├── assets/                           # Images and fonts
@@ -251,7 +314,7 @@ With the development server running (`bun run dev`), press `Shift + M` in the te
 </br>
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/05dce4c2-72cd-46c9-afb9-d04146848ea2" width="1000" height="600" alt="SQL Drizze Studio">
+  <img src="https://github.com/user-attachments/assets/05dce4c2-72cd-46c9-afb9-d04146848ea2" width="1000" height="600" alt="SQL Drizzle Studio">
 </p>
 
 </br>
@@ -316,6 +379,6 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 Victor Zarzar - [@Victor-Zarzar](https://github.com/Victor-Zarzar)
 
-Project Link: [https://github.com/Victor-Zarzar/react-native-crud](https://github.com/Victor-Zarzar/react-native-crud)
+Project Link: [https://github.com/Victor-Zarzar/react-native-basic-auth](https://github.com/Victor-Zarzar/react-native-basic-auth)
 
 ---
